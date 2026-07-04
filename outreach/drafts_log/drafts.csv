@@ -1,6 +1,6 @@
 lead_id,gmail_draft_id,to_email,subject,template_used,date_created,status
 LB-001,,PENDING_VERIFICATION,Quick question for Treat (Indiranagar),local_business,2026-07-04,drafted_local_no_recipient
-LB-002,,PENDING_VERIFICATION,Quick question for Nagarjuna Restaurant (Indiranagar),local_business,2026-07-04,drafted_local_no_recipient
+LB-002,r2802068808862257038,info@nagarjunarestaurants.com,Quick question for Nagarjuna Restaurant (Indiranagar),local_business,2026-07-04,draft_created_awaiting_manual_send
 LB-004,r1789846080119301812,sharewithus@styleunion.in,Quick question for Style Union (Koramangala),local_business,2026-07-04,draft_created_awaiting_manual_send
 LB-006,r-2236941655948266413,bounce.hsr@gmail.com,Quick question for Bounce Salon & Spa (HSR Layout),local_business,2026-07-04,draft_created_awaiting_manual_send
 LB-008,r-2887787494736574352,ceo@cktrends.in,Quick question for Green Trends (HSR Layout),local_business,2026-07-04,draft_created_awaiting_manual_send
