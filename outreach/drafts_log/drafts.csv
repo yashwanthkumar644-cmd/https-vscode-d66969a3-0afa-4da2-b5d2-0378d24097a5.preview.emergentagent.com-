@@ -1,5 +1,6 @@
 lead_id,gmail_draft_id,to_email,subject,template_used,date_created,status
-LB-001,,PENDING_VERIFICATION,Quick question for Treat (Indiranagar),local_business,2026-07-04,drafted_local_no_recipient
+LB-001,r1527561486108515056,treatblr@gmail.com,Quick question for Treat (Indiranagar),local_business,2026-07-04,draft_created_awaiting_manual_send
+LB-003,r4248136892800967028,gm@jupiterhospitality.com,Quick question for 1131 Bar + Kitchen (Indiranagar),local_business,2026-07-04,draft_created_awaiting_manual_send
 LB-007,r3219051492242038226,ahasalonandspahsr@yahoo.com,Quick question for Aha Unisex Salon and Spa (HSR Layout),local_business,2026-07-04,draft_created_awaiting_manual_send
 LB-002,r2802068808862257038,info@nagarjunarestaurants.com,Quick question for Nagarjuna Restaurant (Indiranagar),local_business,2026-07-04,draft_created_awaiting_manual_send
 LB-004,r1789846080119301812,sharewithus@styleunion.in,Quick question for Style Union (Koramangala),local_business,2026-07-04,draft_created_awaiting_manual_send

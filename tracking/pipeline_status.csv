@@ -1,7 +1,7 @@
 lead_id,lead_type,name,stage,last_updated,next_action,next_action_date,meeting_datetime_ist,meeting_location_or_link,calendar_event_id,notified,owner_notes
-LB-001,local_business,Treat,NEW,2026-07-04,Verify owner/manager contact before drafting outreach,,,,,no,
+LB-001,local_business,Treat,DRAFTED,2026-07-04,Real Gmail draft created (id r1527561486108515056) - awaiting manual send,,,,,no,
 LB-002,local_business,Nagarjuna Restaurant (Indiranagar),DRAFTED,2026-07-04,Real Gmail draft created (id r2802068808862257038) - awaiting manual send,,,,,no,
-LB-003,local_business,1131 Bar + Kitchen,NEW,2026-07-04,No verified email found after multiple searches (Jupiter Hospitality parent co. too) - call to get one,,,,,no,
+LB-003,local_business,1131 Bar + Kitchen,DRAFTED,2026-07-04,Real Gmail draft created (id r4248136892800967028) via parent co. email - awaiting manual send,,,,,no,
 LB-004,local_business,Style Union (Koramangala),DRAFTED,2026-07-04,Real Gmail draft created (id r1789846080119301812) - awaiting manual send,,,,,no,
 LB-005,local_business,Bodycraft Salon Spa & Clinic (HSR Layout),NEW,2026-07-04,No email found on official site (contact-us page is phone/form only) - call or use franchise inquiry form,,,,,no,
 LB-006,local_business,Bounce Salon & Spa (HSR Layout),DRAFTED,2026-07-04,Real Gmail draft created (id r-2236941655948266413) - awaiting manual send,,,,,no,
