@@ -1,1 +1,2 @@
 lead_id,company_name,domain,hq_location,employee_count,gift_occasion,gift_type,evidence_source,confidence,apollo_org_id,contact_name,contact_title,contact_email,contact_phone,phone_source,date_added,notes
+ITG-001,Razorpay,razorpay.com,Bengaluru,,Joining,"Customized welcome kit incl. branded cookies, each carrying a company value",https://razorpay.com/blog/remote-onboarding-razorpay/,confirmed,,,,,,,2026-07-04,"Contact person (HR/People Ops) not yet identified - needs Apollo enrichment (blocked on free plan) or manual LinkedIn/careers-page research"

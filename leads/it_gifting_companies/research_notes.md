@@ -19,6 +19,17 @@ Goal: identify IT/tech companies operating in India that give employees gifts on
 
 **Bottom line from this pass:** industry chatter suggests large IT *services* firms (TCS/Infosys/Wipro-style) have been scaling back festival gifting as they grew, while product companies / GCCs (Google, Microsoft, SAP Labs, Amazon India) and mid-size product/SaaS companies (Zoho, Freshworks, Razorpay, Postman) are the more promising segment to verify — but generic search didn't surface hard evidence for them either. None of the above should be treated as a confirmed prospect yet.
 
+## Candidates found in second pass (2026-07-04, deeper research)
+
+| Company | Occasion | What (reported) | Confidence | Source |
+|---|---|---|---|---|
+| Razorpay | Joining | Sends new joiners a customized welcome kit including branded cookies, each carrying a Razorpay company value; part of a documented remote-onboarding program | **confirmed** | [Razorpay's own blog](https://razorpay.com/blog/remote-onboarding-razorpay/) |
+| Zoho | Joining | Zoho People's own HR blog discusses welcome kits as a standard part of pre-onboarding, but doesn't confirm Zoho itself sends one (it's guidance content, not a first-person account) | unverified | [Zoho People HR blog](https://www.zoho.com/people/hrknowledgehive/the-process-of-employee-onboarding.html) |
+
+**Promoted to `tracker.csv`:** Razorpay (only candidate meeting the confirmed/likely bar so far). Contact person (HR/People Ops) not yet identified — needs Apollo enrichment (blocked on current plan) or manual LinkedIn/careers-page research.
+
+No further evidence found for Freshworks, Chargebee, Postman, Zerodha, CRED, Swiggy, or Meesho in this pass — searches returned only generic third-party corporate-gifting-vendor content, not first-party confirmation.
+
 ## Better sources to check next (not yet done — needs a human researcher or authenticated access)
 - LinkedIn: search "day 1 at [company]" / "onboarding kit" posts by employees — most concrete, photo evidence, but requires LinkedIn access this session doesn't have.
 - Glassdoor / Fishbowl / AmbitionBox company-specific benefit pages (per-company, not generic search).
