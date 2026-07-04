@@ -42,7 +42,14 @@ Initial research pass turned up mostly anecdotal forum chatter (Glassdoor/Quora/
 ## Notifications & Google Calendar scheduling
 
 No Google Calendar integration is connected in this environment, so meeting scheduling can't be pushed live to your calendar automatically. Workaround implemented here:
-- When a lead is marked `MEETING_SCHEDULED` or `CUSTOMER` in `pipeline_status.csv`, an `.ics` calendar-invite file is generated in `tracking/calendar_invites/` that you can double-click / import into Google Calendar (or it can be emailed to you as an attachment-equivalent link).
-- A recurring check-in is the mechanism for "notify me": ask to set up a scheduled trigger that re-reads `pipeline_status.csv` and messages you when any lead crosses into a hot stage.
+- Update a lead's `stage` to `MEETING_SCHEDULED` in `tracking/pipeline_status.csv`, filling in `meeting_datetime_ist` (format `YYYY-MM-DD HH:MM`) and `meeting_location_or_link`.
+- `tracking/check_pipeline.py` scans for leads in `MEETING_SCHEDULED`/`CUSTOMER` that haven't been notified yet (`notified` column), and writes a `.ics` file to `tracking/calendar_invites/<lead_id>.ics` — double-click it (or import into Google Calendar) to add the event.
+- A daily scheduled trigger ("Lead pipeline check-in", 9am) runs this script automatically, notifies you here when a lead goes hot, and marks it `notified` so you don't get duplicate pings.
 
-To get real push-button Google Calendar event creation, connect a Google Calendar MCP/connector — then this same stage-change logic can call it directly instead of generating `.ics` files.
+To get real push-button Google Calendar event creation (no `.ics` step), connect a Google Calendar MCP/connector — then the same stage-change logic in `check_pipeline.py` can call it directly.
+
+## Known limitations (current state)
+
+- **Apollo.io search is blocked** on the connected account's free plan (both organization search and people search return `API_INACCESSIBLE`). Local business leads were sourced via web search instead of Apollo, and IT-gifting-company contact enrichment (finding the right person's email/phone) is not yet automated — upgrading the Apollo plan would unblock both `apollo_mixed_companies_search` and `apollo_mixed_people_api_search`.
+- **No verified contact emails yet** for the seeded local business leads — phone numbers/addresses came from public listings (Tripadvisor, Sulekha, Justdial), but owner/manager email addresses need manual verification (business websites were bot-blocked from automated fetching). Draft email bodies are saved in `outreach/drafts_log/local_businesses/*.md` with `To: PENDING_VERIFICATION` — fill in the verified email and the bracketed offer line, then paste into Gmail to send.
+- **No IT gifting companies have been promoted to `tracker.csv` yet** — the initial research pass only turned up unverified forum chatter (see `leads/it_gifting_companies/research_notes.md`). Promote a company once it has `likely`/`confirmed` evidence, then re-run enrichment (once Apollo search/enrichment is available on the account).

@@ -1,1 +1,9 @@
-lead_id,lead_type,name,stage,last_updated,next_action,next_action_date,owner_notes
+lead_id,lead_type,name,stage,last_updated,next_action,next_action_date,meeting_datetime_ist,meeting_location_or_link,notified,owner_notes
+LB-001,local_business,Treat,NEW,2026-07-04,Verify owner/manager contact before drafting outreach,,,,no,
+LB-002,local_business,Nagarjuna Restaurant (Indiranagar),NEW,2026-07-04,Verify phone/contact,,,,no,
+LB-003,local_business,1131 Bar + Kitchen,NEW,2026-07-04,Verify address/phone via Zomato listing,,,,no,
+LB-004,local_business,Style Union (Koramangala),NEW,2026-07-04,Verify owner/manager contact before drafting outreach,,,,no,
+LB-005,local_business,Bodycraft Salon Spa & Clinic (HSR Layout),NEW,2026-07-04,Chain - find branch manager contact,,,,no,
+LB-006,local_business,Bounce Salon & Spa (HSR Layout),NEW,2026-07-04,Verify owner/manager contact before drafting outreach,,,,no,
+LB-007,local_business,Aha Unisex Salon and Spa (HSR Layout),NEW,2026-07-04,Verify phone/contact,,,,no,
+LB-008,local_business,Green Trends Unisex Salon (HSR Layout),NEW,2026-07-04,Chain - find branch manager contact,,,,no,
