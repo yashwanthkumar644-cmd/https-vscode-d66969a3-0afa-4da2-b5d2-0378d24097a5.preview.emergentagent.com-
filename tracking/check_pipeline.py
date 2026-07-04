@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
 """
-Scans pipeline_status.csv for leads in a "hot" stage (MEETING_SCHEDULED or CUSTOMER)
-that haven't been notified yet, prints a notification summary, and generates a
-Google-Calendar-importable .ics file for any MEETING_SCHEDULED lead that has a
-meeting_datetime_ist set.
+Scans pipeline_status.csv for leads in a "hot" stage (MEETING_SCHEDULED or CUSTOMER).
 
-Run manually, or via a scheduled trigger that asks Claude to run this and act on
-the output (send a notification, mark `notified` = yes).
+This script only detects and reports — it has no Google API access itself. It's meant
+to be run by Claude (via the daily "Lead pipeline check-in" trigger), which then:
+  1. Reads this script's JSON output.
+  2. For each lead needing a calendar event, calls the Google Calendar MCP tool
+     (mcp__Google_Calendar__create_event) directly to create a real event, and writes
+     the returned event id into `calendar_event_id`.
+  3. Notifies the user for anything not yet `notified`, then marks it `notified=yes`.
+  4. Falls back to generating a .ics file (via --ics) only if no Google Calendar
+     connector is available in that session.
 
-Usage: python3 tracking/check_pipeline.py
+Usage:
+  python3 tracking/check_pipeline.py            # print JSON of what needs action
+  python3 tracking/check_pipeline.py --ics       # also write .ics fallback files
 """
 import csv
+import json
 import os
+import sys
 import uuid
 from datetime import datetime, timedelta
 
@@ -46,38 +54,52 @@ def make_ics(lead_id, name, meeting_dt, location):
 
 
 def main():
+    write_ics = "--ics" in sys.argv
+
     if not os.path.exists(PIPELINE_CSV):
-        print("No pipeline_status.csv found.")
+        print(json.dumps({"error": "pipeline_status.csv not found"}))
         return
 
     with open(PIPELINE_CSV, newline="") as f:
         rows = list(csv.DictReader(f))
 
-    to_notify = []
+    needs_notify = []
+    needs_calendar_event = []
     for row in rows:
-        if row.get("stage") in HOT_STAGES and row.get("notified", "no").lower() != "yes":
-            to_notify.append(row)
+        stage = row.get("stage")
+        if stage not in HOT_STAGES:
+            continue
+        if row.get("notified", "no").lower() != "yes":
+            needs_notify.append(row["lead_id"])
+        if (stage == "MEETING_SCHEDULED"
+                and row.get("meeting_datetime_ist", "").strip()
+                and not row.get("calendar_event_id", "").strip()):
+            needs_calendar_event.append({
+                "lead_id": row["lead_id"],
+                "name": row["name"],
+                "meeting_datetime_ist": row["meeting_datetime_ist"],
+                "meeting_location_or_link": row.get("meeting_location_or_link", ""),
+            })
 
-    if not to_notify:
-        print("Nothing new to notify.")
-        return
+    result = {
+        "needs_notify": needs_notify,
+        "needs_calendar_event": needs_calendar_event,
+    }
 
-    os.makedirs(INVITES_DIR, exist_ok=True)
-    for row in to_notify:
-        print(f"NOTIFY: {row['lead_id']} ({row['name']}) is now {row['stage']}.")
-        dt_raw = row.get("meeting_datetime_ist", "").strip()
-        if row["stage"] == "MEETING_SCHEDULED" and dt_raw:
+    if write_ics and needs_calendar_event:
+        os.makedirs(INVITES_DIR, exist_ok=True)
+        for item in needs_calendar_event:
             try:
-                meeting_dt = datetime.strptime(dt_raw, "%Y-%m-%d %H:%M")
+                meeting_dt = datetime.strptime(item["meeting_datetime_ist"], "%Y-%m-%d %H:%M")
             except ValueError:
-                print(f"  WARNING: could not parse meeting_datetime_ist '{dt_raw}' "
-                      f"(expected 'YYYY-MM-DD HH:MM'), skipping .ics generation.")
                 continue
-            ics_path = os.path.join(INVITES_DIR, f"{row['lead_id']}.ics")
+            ics_path = os.path.join(INVITES_DIR, f"{item['lead_id']}.ics")
             with open(ics_path, "w") as f:
-                f.write(make_ics(row["lead_id"], row["name"], meeting_dt,
-                                  row.get("meeting_location_or_link", "")))
-            print(f"  Calendar invite written to {ics_path} — import into Google Calendar.")
+                f.write(make_ics(item["lead_id"], item["name"], meeting_dt,
+                                  item["meeting_location_or_link"]))
+            result.setdefault("ics_written", []).append(ics_path)
+
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

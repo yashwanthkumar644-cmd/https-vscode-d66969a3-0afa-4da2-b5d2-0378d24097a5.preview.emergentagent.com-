@@ -41,12 +41,13 @@ Initial research pass turned up mostly anecdotal forum chatter (Glassdoor/Quora/
 
 ## Notifications & Google Calendar scheduling
 
-No Google Calendar integration is connected in this environment, so meeting scheduling can't be pushed live to your calendar automatically. Workaround implemented here:
+A Google Calendar connector is now connected (primary calendar: the account owner's, timezone Asia/Kolkata), so meetings are scheduled live:
 - Update a lead's `stage` to `MEETING_SCHEDULED` in `tracking/pipeline_status.csv`, filling in `meeting_datetime_ist` (format `YYYY-MM-DD HH:MM`) and `meeting_location_or_link`.
-- `tracking/check_pipeline.py` scans for leads in `MEETING_SCHEDULED`/`CUSTOMER` that haven't been notified yet (`notified` column), and writes a `.ics` file to `tracking/calendar_invites/<lead_id>.ics` — double-click it (or import into Google Calendar) to add the event.
-- A daily scheduled trigger ("Lead pipeline check-in", 9am) runs this script automatically, notifies you here when a lead goes hot, and marks it `notified` so you don't get duplicate pings.
+- `tracking/check_pipeline.py` (pure CSV logic, no Google API access itself) prints JSON listing which leads need a calendar event (`needs_calendar_event`) and which need a notification (`needs_notify`).
+- The daily "Lead pipeline check-in" trigger (9am) runs this script, then directly calls the Google Calendar `create_event` tool for each lead needing one, writes the resulting event id back into `calendar_event_id` (so it's never double-booked), notifies you here, and marks `notified=yes`.
+- Fallback: if the Google Calendar connector is ever unavailable, run `python3 tracking/check_pipeline.py --ics` to get a `.ics` file in `tracking/calendar_invites/` you can import manually instead.
 
-To get real push-button Google Calendar event creation (no `.ics` step), connect a Google Calendar MCP/connector — then the same stage-change logic in `check_pipeline.py` can call it directly.
+**Known issue:** as of this writing, the scheduling backend (the trigger that runs this daily check) is failing to update/recreate with "MCP tool call requires approval" — the trigger may need to be re-created once that clears up.
 
 ## Known limitations (current state)
 
